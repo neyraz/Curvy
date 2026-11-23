@@ -1,0 +1,26 @@
+{
+ "name": "Curvy \u2014 growth curve analysis",
+ "short_name": "Curvy",
+ "description": "Growth curves, fluorescence and plate-reader analysis in the browser",
+ "start_url": "./index.html",
+ "display": "standalone",
+ "background_color": "#f4f3ef",
+ "theme_color": "#0e7c7b",
+ "icons": [
+  {
+   "src": "icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  },
+  {
+   "src": "curvy-logo.svg",
+   "sizes": "any",
+   "type": "image/svg+xml"
+  }
+ ]
+}
