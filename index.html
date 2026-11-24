@@ -57,7 +57,7 @@ table.t{border-collapse:collapse;font-size:12.5px;font-variant-numeric:tabular-n
 table.t th{position:sticky;top:0;background:var(--panel2);text-align:left;padding:5px 9px;border-bottom:1px solid var(--line);white-space:nowrap;font-weight:600}
 table.t td{padding:4px 9px;border-bottom:1px solid var(--line);white-space:nowrap}table.t td.n{font-family:var(--mono);text-align:right}table.t tr:hover td{background:var(--accent-soft)}
 table.t input,table.t select{border:1px solid transparent;background:none;padding:2px 4px;border-radius:4px;width:100%}table.t input:hover,table.t select:hover,table.t input:focus{border-color:var(--line);background:var(--panel)}
-.tw{max-height:62vh;overflow:auto;border:1px solid var(--line);border-radius:8px;max-width:100%}
+.tw{max-height:62vh;overflow:auto;border:1px solid var(--line);border-radius:8px;max-width:100%}.tw.full{max-height:max(62vh,calc(100vh - 230px))}
 .sig{color:var(--good);font-weight:700}
 /* plate editor */
 .platewrap>.card:first-child{width:min-content}.platewrap>.card:first-child h3 .note{display:block;margin-top:2px}#gtab select{min-width:84px}.platewrap{display:flex;flex-wrap:wrap;gap:16px;width:100%;align-items:flex-start}.platewrap>.card{max-width:100%}.platewrap>.card:last-child{flex:1 1 440px;min-width:0}.platewrap>.card:first-child{overflow-x:auto}
@@ -82,6 +82,7 @@ table.t input,table.t select{border:1px solid transparent;background:none;paddin
 #toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:8px 14px;border-radius:999px;font-size:13px;z-index:95;box-shadow:var(--shadow)}
 .thumbs{display:flex;flex-wrap:wrap;gap:10px}.thumb{color:#111;border:1px solid var(--line);border-radius:8px;background:#fff;padding:6px;width:210px;position:relative}.thumb svg{width:100%;height:auto;display:block}.thumb .acts{margin-top:5px;justify-content:space-between}.thumb .btn{background:#fff;color:#111;border-color:#c9c7c0}.thumb .btn:disabled{opacity:.35}
 #busy{height:3px;background:var(--accent);position:fixed;top:0;left:0;right:0;z-index:99;animation:busy 1s linear infinite;transform-origin:left}@keyframes busy{0%{transform:scaleX(0)}60%{transform:scaleX(.8)}100%{transform:scaleX(1);opacity:0}}
+@media(max-width:1180px){#tabs{padding:8px 8px 0}#tabs button{padding:8px 7px;font-size:13px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media print{#top,#rail,#tabs,#tools{display:none}#view{overflow:visible}}
 
@@ -119,7 +120,7 @@ details.sec.flash>summary{background:var(--accent-soft);transition:background .4
 <header id="top">
   <button class="brand" id="home" title="Curvy — open a new, empty analysis tab">
     <svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="var(--accent)"/><path d="M8.3 9.5V31.7H32.5" fill="none" stroke="var(--accent-fg)" stroke-opacity=".36" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M10.2 28.8C15.7 28.8 16.7 26.7 19.5 21.5S24.4 13.4 31 13.4" fill="none" stroke="var(--accent-fg)" stroke-width="3.2" stroke-linecap="round"/><rect x="21.6" y="4.9" width="12.2" height="5.4" rx="2.7" fill="var(--accent-fg)"/><path d="M27.7 5.4v4.4" stroke="var(--accent)" stroke-width="1.2" stroke-linecap="round"/></svg>
-    <div><b>Curvy</b><span>Growth curve analysis · v1.2</span></div>
+    <div><b>Curvy</b><span>Growth curve analysis · v1.3</span></div>
   </button>
   <nav id="wsTabs" aria-label="Open analyses"></nav>
   <button class="btn ib" id="bRail" title="Show or hide the settings panel" aria-label="Settings"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1"/><circle cx="15" cy="6" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="18" r="2"/></svg></button>
@@ -157,7 +158,7 @@ details.sec.flash>summary{background:var(--accent-soft);transition:background .4
       <label class="fld"><span>Time unit in the file <i class="help" title="Auto-detect works for clock times, h:mm:ss and columns labelled with a unit. Change it if the time axis looks wrong; the file is then read again.">?</i></span><select data-s="unit" id="selUnit"><option value="auto">Auto-detect</option><option value="h">Hours</option><option value="min">Minutes</option><option value="s">Seconds</option></select></label>
     </div></details>
     <details class="sec" open><summary>Blank &amp; processing</summary><div class="sb">
-      <label class="fld"><span>Blank correction <i class="help" title="Automatic: uses the wells you marked as Blank on the Plate tab; if there are none, each well's own minimum is subtracted.">?</i></span>
+      <label class="fld"><span>Blank correction <i class="help" title="Automatic: uses the wells you marked as Blank on the Plate tab (with several blank groups, each sample uses the one named like it, otherwise the nearest one — shown in the group table); if there are none, each well's own minimum is subtracted.">?</i></span>
         <select data-s="blankMode"><option value="auto">Automatic</option><option value="groups">Blank wells (matched by name)</option><option value="min">Each well's own minimum</option><option value="first">Each well's first reading</option><option value="value">A fixed value</option><option value="none">None (raw values)</option></select></label>
       <div class="r2"><label class="fld"><span>Blank over time</span><select data-s="blankAs"><option value="point">Each time point</option><option value="const">One constant (median)</option></select></label>
         <label class="fld"><span>Fixed value</span><input type="number" step="0.005" data-s="blankValue"></label></div>
@@ -457,7 +458,15 @@ const Stat = (() => {
       for (let a = 0; a < n; a++) for (let b = a + 1; b < n; b++) A[a][b] = A[b][a];
       let improved = false;
       for (let tries = 0; tries < 12; tries++) {
-        const B = A.map((row, i) => row.map((v, j) => i === j ? v * (1 + lam) + 1e-12 : v)), d = solve(B, g);
+        // a parameter sitting on its bound whose step points outwards is held there, and the step is worked out for the others
+        const free = p.map(() => true); let d = null;
+        for (let pass = 0; pass < n; pass++) {
+          const id = []; for (let a = 0; a < n; a++) if (free[a]) id.push(a); if (!id.length) { d = null; break; }
+          const ds = solve(id.map(a => id.map(b => a === b ? A[a][b] * (1 + lam) + 1e-12 : A[a][b])), id.map(a => g[a])); if (!ds) { d = null; break; }
+          d = new Array(n).fill(0); id.forEach((a, k) => { d[a] = ds[k]; });
+          let held = false; for (const a of id) if ((lo && p[a] <= lo[a] && d[a] < 0) || (hi && p[a] >= hi[a] && d[a] > 0)) { free[a] = false; held = true; }
+          if (!held) break;
+        }
         if (d) { const q = clampP(p.map((v, i) => v + d[i])), s = sseOf(q); if (s < sse) { const rel = (sse - s) / Math.max(sse, 1e-300); p = q; sse = s; lam = Math.max(lam / 4, 1e-9); improved = true; if (rel < 1e-10) ok = true; break; } }
         lam *= 5;
       }
@@ -597,7 +606,7 @@ const IO = (() => {
       { name: '_rels/.rels', data: '<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>' },
       { name: 'xl/workbook.xml', data: '<?xml version="1.0" encoding="UTF-8"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>' + names.map((n, i) => `<sheet name="${x(n)}" sheetId="${i + 1}" r:id="rId${i + 1}"/>`).join('') + '</sheets></workbook>' },
       { name: 'xl/_rels/workbook.xml.rels', data: '<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">' + sheets.map((s, i) => `<Relationship Id="rId${i + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${i + 1}.xml"/>`).join('') + `<Relationship Id="rId${sheets.length + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>` },
-      { name: 'xl/styles.xml', data: '<?xml version="1.0" encoding="UTF-8"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts><fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills><borders count="1"><border/></borders><cellStyleXfs count="1"><xf/></cellStyleXfs><cellXfs count="2"><xf/><xf fontId="1" applyFont="1"/></cellXfs></styleSheet>' }];
+      { name: 'xl/styles.xml', data: '<?xml version="1.0" encoding="UTF-8"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts><fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills><borders count="1"><border/></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="2"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>' }];
     sheets.forEach((s, i) => {
       let b = '<?xml version="1.0" encoding="UTF-8"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData>';
       s.rows.forEach((row, r) => { b += `<row r="${r + 1}">`; row.forEach((v, c) => { if (v == null || v === '' || (typeof v === 'number' && !Number.isFinite(v))) return; const ref = colName(c) + (r + 1); b += typeof v === 'number' ? `<c r="${ref}"><v>${v}</v></c>` : `<c r="${ref}" t="inlineStr"${r === 0 ? ' s="1"' : ''}><is><t xml:space="preserve">${x(v)}</t></is></c>`; }); b += '</row>'; });
@@ -606,7 +615,14 @@ const IO = (() => {
     return zip(files, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
   }
   const csv = rows => rows.map(r => r.map(v => { if (v == null || (typeof v === 'number' && !Number.isFinite(v))) return ''; const s = String(v); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; }).join(',')).join('\r\n');
-  return { readFile, readXlsx, readDelimited, decodeText, toNumber, zip, xlsx, csv };
+  /* Write the resolution into a PNG (pHYs chunk), so Word, PowerPoint and Illustrator place it at its real size */
+  async function pngDpi(blob, dpi) {
+    const u = new Uint8Array(await blob.arrayBuffer()); if (u.length < 33 || u[12] !== 0x49 || u[13] !== 0x48) return blob; // IHDR must come first
+    const ppm = Math.round(dpi / 0.0254), c = new Uint8Array(21), v = new DataView(c.buffer);
+    v.setUint32(0, 9); c.set([0x70, 0x48, 0x59, 0x73], 4); v.setUint32(8, ppm); v.setUint32(12, ppm); c[16] = 1; v.setUint32(17, crc32(c.subarray(4, 17)));
+    return new Blob([u.subarray(0, 33), c, u.subarray(33)], { type: 'image/png' });
+  }
+  return { readFile, readXlsx, readDelimited, decodeText, toNumber, zip, xlsx, csv, pngDpi };
 })();
 
 /* ─────────────── PLATE GEOMETRY ─────────────── */
@@ -678,7 +694,7 @@ const Formats = (() => {
     return null;
   }
   const newBlock = (sheet, plate, label, layout) => ({ sheet, plate: plate || '', label: label || '', layout, times: [], temps: [], wells: {}, overflow: 0, abs: false });
-  const put = (b, w, v) => { if (v === Infinity) { b.overflow++; v = NaN; } (b.wells[w] || (b.wells[w] = [])).push(v); };
+  const put = (b, w, v) => { if (v === Infinity) { b.overflow++; (b.ovw || (b.ovw = new Set())).add(w); v = NaN; } (b.wells[w] || (b.wells[w] = [])).push(v); };
 
   /* --- columns (and Gen5 stacker) --- */
   function colBlocks(rows, sheet, unitOv) {
@@ -874,7 +890,7 @@ const Formats = (() => {
     }
     blocks = blocks.filter(b => b.times.length && Object.keys(b.wells).length);
     if (!blocks.length) throw new Error('No plate data was found in this file. Curvy looks for a time column next to well names (A1, A2 …), wells listed in rows, or a plate-shaped grid. If your export looks different, save it as a table with one "Time" column and one column per well.');
-    const vendor = vendorOf(sheets, blocks), meta = readMeta(sheets[0].rows), warnings = [], plates = [], by = new Map(), multiSheet = new Set(blocks.map(b => b.sheet)).size > 1;
+    const vendor = vendorOf(sheets, blocks), meta = readMeta(sheets[0].rows), warnings = [], plates = [], ovs = [], by = new Map(), multiSheet = new Set(blocks.map(b => b.sheet)).size > 1;
     // absolute clock times → hours since the first reading of all plates; each plate then starts at its own first reading
     const absBlocks = blocks.filter(b => b.abs), g0 = absBlocks.length ? Math.min(...absBlocks.map(b => U.min(b.times))) : 0;
     for (const b of blocks) {
@@ -888,10 +904,11 @@ const Formats = (() => {
       const wells = {}; for (const w in b.wells) if (b.wells[w].length === t.length) wells[w] = ord.map(i => b.wells[w][i]);
       const rd = { label: '', rawLabel: b.label, times: ord.map(i => t[i]), temps: ord.map(i => b.temps[i]), wells, unit: b.unit, layout: b.layout, overflow: b.overflow };
       rd.meta = meta.reads[b.label] || {}; rd.kind = kindOf(b, rd.meta); rd.label = niceLabel(b, p.reads.length);
-      if (b.overflow) warnings.push(`${b.overflow} over-range reading${b.overflow > 1 ? 's' : ''} in "${rd.label}" were left empty.`);
+      if (b.overflow) ovs.push({ p, rd, n: b.overflow, ow: [...(b.ovw || [])] });
       if (b.format) p.format = b.format;
       p.reads.push(rd);
     }
+    for (const { p, rd, n, ow } of ovs) warnings.push(`${n} over-range reading${n > 1 ? 's' : ''} (“OVER”) in ${rd.label ? '“' + rd.label + '”' : 'this read'}${plates.length > 1 ? ' of ' + p.name : ''} ${n > 1 ? 'were' : 'was'} left empty — well${ow.length > 1 ? 's' : ''} ${ow.slice(0, 8).join(', ')}${ow.length > 8 ? ' and ' + (ow.length - 8) + ' more' : ''}. ${ow.length > 1 ? 'Their' : 'Its'} maximum, final value and AUC can be too low.`);
     for (const p of plates) {
       const names = new Set(); for (const rd of p.reads) for (const w in rd.wells) names.add(w);
       p.format = p.format || Plate.formatFor(names); p.wells = [...names].sort(Plate.order);
@@ -920,7 +937,7 @@ const METRICS = [
   { k: 'max', label: 'Maximum', unit: '', d: 3 },
   { k: 'tmax', label: 'Time of maximum', unit: 'h', d: 2, g: 1 },
   { k: 'auc', label: 'Area under curve', unit: '·h', d: 2, g: 1 },
-  { k: 'final', label: 'Final value', unit: '', d: 3 },
+  { k: 'final', label: 'Final value', unit: '', d: 3, tip: 'Median of the last three readings' },
   { k: 'delta', label: 'Increase (max − start)', unit: '', d: 3, g: 1 },
   { k: 'r2', label: 'R² of µmax / fit', unit: '', d: 3, g: 1 },
   // fluorescence parameters (f: 1); od: 1 = needs an absorbance (OD) growth read
@@ -929,7 +946,7 @@ const METRICS = [
   { k: 'fdelay', label: 'F onset delay vs OD', unit: 'h', d: 2, f: 1, g: 1, tip: 'Time F reaches 10% of its rise minus the time OD reaches 10% of its rise' },
   { k: 'fmax', label: 'Max F', unit: 'RFU', d: 0, f: 1 },
   { k: 'fdelta', label: 'ΔF', unit: 'RFU', d: 0, f: 1, g: 1 },
-  { k: 'ffinal', label: 'Final F', unit: 'RFU', d: 0, f: 1 },
+  { k: 'ffinal', label: 'Final F', unit: 'RFU', d: 0, f: 1, tip: 'Median of the last three readings' },
   { k: 'fauc', label: 'AUC (F)', unit: 'RFU·h', d: 0, f: 1, g: 1 },
   { k: 'ftmid', label: 'F time to half-max', unit: 'h', d: 2, f: 1, g: 1 },
   { k: 'fvmax', label: 'Max dF/dt', unit: 'RFU·h⁻¹', d: 0, f: 1, g: 1 },
@@ -959,16 +976,25 @@ const Models = {
 };
 
 const Analysis = (() => {
-  const TOK_SKIP = /^(blank|blanks|blk|medium|media|ctrl|control|only|no|cells|sterile|neg|negative|bg|background|\+|-|–)$/i;
-  const tokens = n => String(n).toLowerCase().split(/[\s_,;/|()+-]+/).filter(x => x && !TOK_SKIP.test(x));
-  /* Which blank wells belong to a group: the chosen blank group, else a blank whose name shares a word
-     with the sample (e.g. "LB5 blank" for "WT LB5"), else every blank on the plate. */
-  function blankWellsFor(g, blanks) {
+  const TOK_SKIP = /^(blank|blanks|blk|medium|media|ctrl|control|only|no|cells|sterile|neg|negative|bg|background|\+|-|–)$/i, WELL_TOK = /^[a-p]{1,2}\d{1,2}(–[a-p]{0,2}\d{1,2})?$/;
+  const tokens = n => String(n).toLowerCase().split(/[\s_,;/|()+-]+/).filter(x => x && !TOK_SKIP.test(x) && !WELL_TOK.test(x)); // well names (A1, B3–B5) are not words
+  /* Which blank wells belong to a group: the blank group chosen on the Plate tab; with one blank group, that one; with several,
+     the blank whose name shares the most words with the sample (e.g. "LB5 blank" for "WT LB5"), and among equals the nearest
+     on the plate (Sigmoid's rule: rows count ten times columns, a blank in the same row is preferred). */
+  function blankFor(g, blanks) { // the blank group used for g (null: all blanks pooled)
     if (!blanks.length) return null;
-    if (g && g.blankId) { const b = blanks.find(x => x.id === g.blankId); if (b) return b.wells; }
-    if (g && blanks.length > 1) { const tk = new Set(tokens(g.name)); let best = null, bs = 0; for (const b of blanks) { const s = tokens(b.name).filter(x => tk.has(x)).length; if (s > bs) { bs = s; best = b; } } if (best) return best.wells; }
-    return [].concat(...blanks.map(b => b.wells));
+    if (g && g.blankId) { const b = blanks.find(x => x.id === g.blankId); if (b) return b; }
+    if (blanks.length === 1) return blanks[0]; if (!g) return null;
+    const tk = new Set(tokens(g.name || '')), gp = g.wells.map(Plate.parse).filter(Boolean); let best = null, bs = -Infinity;
+    for (const b of blanks) {
+      let dist = 1e6, same = false, before = false;
+      for (const a of gp) for (const w of b.wells) { const c = Plate.parse(w); if (!c) continue; const d = Math.abs(a.r - c.r) * 10 + Math.abs(a.c - c.c); if (d < dist) { dist = d; same = a.r === c.r; before = c.c < a.c; } }
+      const s = tokens(b.name).filter(x => tk.has(x)).length * 1000 - dist + (same ? 50 : 0) + (before ? 0.5 : 0);
+      if (s > bs) { bs = s; best = b; }
+    }
+    return best;
   }
+  function blankWellsFor(g, blanks) { if (!blanks.length) return null; const b = blankFor(g, blanks); return b ? b.wells : [].concat(...blanks.map(x => x.wells)); }
   function valueAt(t, y, T) { // linear interpolation between the two readings around time T
     let p = -1; for (let i = 0; i < t.length; i++) { if (!Number.isFinite(y[i])) continue; if (Math.abs(t[i] - T) < 1e-9) return y[i]; if (t[i] > T) return p < 0 ? NaN : y[p] + (y[i] - y[p]) * (T - t[p]) / (t[i] - t[p]); p = i; }
     return NaN;
@@ -993,7 +1019,7 @@ const Analysis = (() => {
     if (!idx.length) return m;
     const y0 = U.median(idx.slice(0, 3).map(i => y[i])); let iMax = idx[0];
     for (const i of idx) if (y[i] > y[iMax]) iMax = i;
-    m.max = y[iMax]; m.tmax = t[iMax]; m.final = y[idx[idx.length - 1]]; m.start = y0; m.delta = m.max - y0;
+    m.max = y[iMax]; m.tmax = t[iMax]; m.final = U.median(idx.slice(-3).map(i => y[i])); m.start = y0; m.delta = m.max - y0;
     if (idx.length < 2) return m;
     m.auc = U.trapz(t, y); m.grew = m.delta >= S.minGrowth; m.iMax = iMax;
     if (dyn) { for (const T of dyn.T) m['odt@' + T] = valueAt(t, y, T); for (const L of dyn.L) m['tto@' + L] = crossTime(t, y, L); }
@@ -1058,7 +1084,7 @@ const Analysis = (() => {
     for (const w of plate.wells) {
       const rawAll = P.wells[w]; if (!rawAll) continue;
       const g = gOf[w]; let corr;
-      if (mode === 'groups') { const bw = blankWellsFor(g, blanks), bs = blankSeries(P, bw); corr = rawAll.map((v, i) => v - (Number.isFinite(bs[i]) ? bs[i] : 0)); }
+      if (mode === 'groups') { const bw = blankWellsFor(g || { name: '', wells: [w] }, blanks), bs = blankSeries(P, bw); corr = rawAll.map((v, i) => v - (Number.isFinite(bs[i]) ? bs[i] : 0)); }
       else if (mode === 'first') { const f0 = rawAll.find(Number.isFinite) || 0; corr = rawAll.map(v => v - f0); }
       else if (mode === 'min') { const mn = U.min(rawAll); corr = rawAll.map(v => v - (Number.isFinite(mn) ? mn : 0)); }
       else if (mode === 'value') corr = rawAll.map(v => v - (+S.blankValue || 0));
@@ -1133,24 +1159,7 @@ const Analysis = (() => {
   const errOf = (sd, n, kind) => kind === 'none' || !(n > 1) ? NaN : kind === 'sem' ? sd / Math.sqrt(n) : kind === 'ci' ? Stat.tQ(0.05, n - 1) * sd / Math.sqrt(n) : sd;
   const values = (R, wells, key) => wells.map(w => R.wells[w] && R.wells[w].m ? R.wells[w].m[key] : NaN).filter(Number.isFinite);
 
-  /* ---- dose–response: four-parameter logistic (Hill) fit and MIC ---- */
-  function fit4pl(x, y) { // x > 0
-    const px = [], py = []; for (let i = 0; i < x.length; i++) if (x[i] > 0 && Number.isFinite(y[i])) { px.push(Math.log10(x[i])); py.push(y[i]); }
-    if (new Set(px).size < 4) return null;
-    const top0 = U.max(py), bot0 = U.min(py), mid = (top0 + bot0) / 2; let ic0 = U.mean(px), bd = Infinity;
-    for (let i = 0; i < px.length; i++) if (Math.abs(py[i] - mid) < bd) { bd = Math.abs(py[i] - mid); ic0 = px[i]; }
-    const inc = U.linreg(px, py).slope > 0, f = (lx, p) => p[1] + (p[0] - p[1]) / (1 + Math.pow(10, (lx - p[2]) * p[3]));
-    let best = null;
-    for (const h0 of inc ? [-1, -3] : [1, 3]) { const r = Stat.lm(f, [top0, bot0, ic0, h0], px, py, [-Infinity, Math.min(0, bot0), U.min(px) - 2, -30], [Infinity, Infinity, U.max(px) + 2, 30], 120); if (!best || r.sse < best.sse) best = r; }
-    const m = U.mean(py); let sst = 0; for (const v of py) sst += (v - m) ** 2;
-    return { top: best.p[0], bottom: best.p[1], ic50: Math.pow(10, best.p[2]), hill: best.p[3], r2: sst > 0 ? 1 - best.sse / sst : NaN, f: xx => f(Math.log10(xx), best.p), inRange: best.p[2] >= U.min(px) && best.p[2] <= U.max(px) };
-  }
-  function mic(points, cut) { // points [{x, y}] with y in % of control; lowest x from which every higher x stays ≤ cut
-    const p = points.filter(q => q.x > 0 && Number.isFinite(q.y)).sort((a, b) => a.x - b.x); let m = NaN;
-    for (let i = p.length - 1; i >= 0; i--) { if (p[i].y <= cut) m = p[i].x; else break; }
-    return { mic: m, above: p.length && !Number.isFinite(m), top: p.length ? p[p.length - 1].x : NaN, low: p.length ? p[0].x : NaN };
-  }
-  return { run, series, curve, errOf, values, fitCurve, fit4pl, mic, blankWellsFor, growth, valueAt };
+  return { run, series, curve, errOf, values, fitCurve, blankFor, blankWellsFor, growth, valueAt };
 })();
 
 /* ───────────────────── 4. CHARTS ─────────────────────
@@ -1215,12 +1224,12 @@ const Charts = (() => {
   const E = U.esc, f1 = v => (Math.round(v * 10) / 10).toString();
   const textW = (s, fs) => { let w = 0; for (const ch of String(s).replace(/\*/g, '')) w += /[il.,:;|!' ]/.test(ch) ? 0.3 : /[mwMW@]/.test(ch) ? 0.85 : /[A-Z0-9_–]/.test(ch) ? 0.62 : 0.52; return w * fs; };
   function ticks(a, b, n = 6) {
-    if (!(b > a)) return [a]; const raw = (b - a) / Math.max(1, n), mag = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / mag, step = (f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10) * mag, out = [];
+    if (!(b - a > 1e-12 * Math.max(Math.abs(a), Math.abs(b)))) return [a]; const raw = (b - a) / Math.max(1, n), mag = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / mag, step = (f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10) * mag, out = [];
     for (let v = Math.ceil(a / step - 1e-9) * step; v <= b + step * 1e-9; v += step) out.push(Math.abs(v) < step * 1e-9 ? 0 : +v.toPrecision(12));
     return out;
   }
   function niceDom(a, b, zero) {
-    if (!Number.isFinite(a) || !Number.isFinite(b)) return [0, 1]; if (a === b) { a -= Math.abs(a) * 0.1 || 0.5; b += Math.abs(b) * 0.1 || 0.5; }
+    if (!Number.isFinite(a) || !Number.isFinite(b)) return [0, 1]; if (!(b - a > 1e-9 * Math.max(Math.abs(a), Math.abs(b)))) { /* equal, or equal but for rounding */ a -= Math.abs(a) * 0.1 || 0.5; b += Math.abs(b) * 0.1 || 0.5; }
     const nearZero = zero && a > -(b - a) * 0.08 && a < (b - a) * 0.6; if (nearZero) a = Math.min(0, a); const pad = (b - a) * 0.05; const lo = nearZero ? a : a - pad, hi = b + pad, t = ticks(lo, hi, 5), st = t.length > 1 ? t[1] - t[0] : 1;
     return [nearZero ? a : Math.floor(lo / st + 1e-9) * st, Math.ceil(hi / st - 1e-9) * st];
   }
@@ -1307,6 +1316,7 @@ const Charts = (() => {
   function bandOf(xs, lo, hi, X, Y, pos, floor) { let d = '', seg = []; const flush = () => { if (seg.length > 1) d += 'M' + seg.map(i => f1(X(xs[i])) + ' ' + f1(Y(hi[i]))).join('L') + 'L' + seg.slice().reverse().map(i => f1(X(xs[i])) + ' ' + f1(Y(pos ? Math.max(lo[i], floor) : lo[i]))).join('L') + 'Z'; seg = []; }; for (let i = 0; i < xs.length; i++) { if (Number.isFinite(lo[i]) && Number.isFinite(hi[i]) && (!pos || hi[i] > 0)) seg.push(i); else flush(); } flush(); return d; }
   function dataDom(St, xs, ys, o) {
     let x0 = U.min(xs), x1 = U.max(xs), y0 = U.min(ys), y1 = U.max(ys);
+    if (!Number.isFinite(x0) || !Number.isFinite(x1)) { x0 = 0; x1 = 1; } if (!Number.isFinite(y0) || !Number.isFinite(y1)) { y0 = 0; y1 = 1; } // nothing finite to show
     if (!o.xlog && o.zero !== false && x0 > 0 && x0 < (x1 - x0) * 0.1) x0 = 0;
     let xd = o.xlog ? [x0 / 1.3, x1 * 1.3] : [x0, x1 === x0 ? x0 + 1 : x1], yd;
     if (o.ylog) { const p = ys.filter(v => v > 0); y0 = U.min(p); y1 = U.max(p); if (!Number.isFinite(y0)) { y0 = 0.01; y1 = 1; } yd = [Math.pow(10, Math.floor(Math.log10(y0) + 1e-9)), Math.pow(10, Math.ceil(Math.log10(y1) - 1e-9))]; if (yd[1] / y1 > 3) yd[1] = y1 * 1.3; if (y0 / yd[0] > 3) yd[0] = y0 / 1.3; }
@@ -1472,7 +1482,7 @@ const Charts = (() => {
     if (title) s += txt(St, Math.min(Wt, bx) / 2, St.fsTitle + 4, title, St.fsTitle, { bold: true, ed: 'title', attr: o.titleAttr });
     return { svg: wrap(St, Wt, H, s), w: Wt, h: H, scale: { lo, hi, stops, fmt: fmtV } };
   }
-  /* Scatter of points with optional lines. series: [{name,color,marker,pts:[{x,y,ex,ey,tip}], line:{x,y}, vline}] */
+  /* Figure board: pinned figures arranged in a grid with panel letters */
   function board(items, cols, St, letters) {
     if (!items.length) return null; cols = Math.max(1, Math.min(cols, items.length));
     const cw = Math.max(...items.map(i => i.w)), gap = 24, rows = Math.ceil(items.length / cols), rh = []; let s = '';
@@ -1497,7 +1507,7 @@ const App = (() => {
   const ACCENTS = { spring: '#0e7c7b', violet: '#5a3fa6', ember: '#b8501a', ocean: '#1f5fae', moss: '#4a7a1e', graphite: '#3c4046' };
   const VO = { scope: 'plate', cy: 'y', ylog: false, wells: false, fits: false, showBlanks: false, pmode: 'groups', pshare: true, hmode: 'metric', hmetric: 'max', htime: 0, htext: true,
     cmetric: 'mu', cmode: 'bar', cpairs: 'none', ctest: 'welch', cadj: 'holm', cref: '', clab: 'stars', csort: 'layout', clog: false, cpoints: true,
-    dmetric: 'auc', dnorm: 'control', dcut: 10, dfit: true, dview: 'curve', sx: 'mu', sy: 'max', slevel: 'wells', sreg: true, tmode: 'groups', pstyle: 'soft', bcols: 2, bletters: 'upper', arep: 3, adir: 'row',
+    tmode: 'groups', pstyle: 'soft', bcols: 2, bletters: 'upper', arep: 3, adir: 'row',
     psel: [], pool: false, ref: '', cnorm: 'none', hnorm: 'none', hspeed: 500, hread: 'y', hparams: ['mu', 'td', 'lag', 'max', 'auc'] };
   const TABS = [['plate', 'Plate & layout'], ['curves', 'Curves'], ['panels', 'Panels'], ['heat', 'Heatmaps'], ['compare', 'Compare'], ['stats', 'Statistics'], ['table', 'Tables'], ['board', 'Figure board'], ['methods', 'Methods']];
   const store = (k, v) => { try { if (v === undefined) return JSON.parse(localStorage.getItem('curvy.' + k) || localStorage.getItem('sigmasense.' + k) || localStorage.getItem('wellspring.' + k) || 'null'); localStorage.setItem('curvy.' + k, JSON.stringify(v)); } catch (e) { return null; } };
@@ -1569,8 +1579,8 @@ const App = (() => {
   const normCenter = m => m === 'pct' ? 100 : m === 'fold' ? 1 : m === 'log2' ? 0 : null;
   const normLabel = (m, base, ref) => m === 'pct' ? `${base} (% of ${ref})` : m === 'fold' ? `${base} (fold change vs ${ref})` : m === 'log2' ? `${base} (log₂ fold change vs ${ref})` : base;
   /* groups behind a figure key: g:<id>, n:<name> (pooled), d:<series>[\u0001<plate>] */
-  function groupsOfKey(key) { const ps = new Set(scopePlates()); if (key.startsWith('g:')) return ws.groups.filter(g => g.id === key.slice(2)); if (key.startsWith('n:')) return ws.groups.filter(g => g.name === key.slice(2) && ps.has(g.plate)); if (key.startsWith('d:')) { const [nm, pi] = key.slice(2).split('\u0001'); return ws.groups.filter(g => g.series === nm && (pi != null ? g.plate === +pi : ps.has(g.plate))); } return ws.groups.filter(g => g.id === key); }
-  const mk = (pi, name, wells, role = 'sample', extra = {}) => Object.assign({ id: U.uid(), plate: pi, name, wells: wells.slice().sort(Plate.order), role, series: '', conc: null, blankId: '', hidden: false, color: '' }, extra);
+  function groupsOfKey(key) { const ps = new Set(scopePlates()); if (key.startsWith('g:')) return ws.groups.filter(g => g.id === key.slice(2)); if (key.startsWith('n:')) return ws.groups.filter(g => g.name === key.slice(2) && ps.has(g.plate)); return ws.groups.filter(g => g.id === key); }
+  const mk = (pi, name, wells, role = 'sample', extra = {}) => Object.assign({ id: U.uid(), plate: pi, name, wells: wells.slice().sort(Plate.order), role, blankId: '', hidden: false, color: '' }, extra);
   const baseOf = () => { const R = ws.plates.length ? res(ws.pi) : null; return R ? (R.kind === 'abs' ? 'OD' : R.label) : 'Value'; };
   const fUnit = u => { const R = ws.plates.length ? res(ws.pi) : null, rd = R && R.fl >= 0 ? plate().reads[R.fl] : null; return rd && rd.kind === 'lum' ? u.replace('RFU', 'RLU') : u; };
   const metricLabel = k => { const m = mdef(k); if (m.dyn === 'odt') return `${baseOf()} at ${m.at} h`; if (m.dyn === 'tto') return `Time to ${baseOf()} ${m.at} (h)`; if (m.f) return m.label + (m.unit ? ` (${fUnit(m.unit)})` : ''); const base = baseOf(); return m.label + (m.unit ? ` (${m.unit === '·h' ? base + '·h' : m.unit})` : m.k === 'max' || m.k === 'final' || m.k === 'delta' ? ` (${base})` : ''); };
@@ -1676,7 +1686,7 @@ const App = (() => {
     for (const pl of t.plates) for (const rd of pl.reads) for (const w in rd.wells) rd.wells[w] = rd.wells[w].map(v => v == null ? NaN : v);
     ws = t; pickSt(); record(); syncRail();
   }
-  function demo() { // a simulated 96-well plate: four strains in triplicate, a dilution series and blanks
+  function demo() { // a simulated 96-well plate with OD and GFP: four strains in triplicate, two antibiotic dilution rows and blanks
     const t = []; for (let i = 0; i <= 48; i++) t.push(i * 0.5); const wells = {}, fl = {}, rnd = (() => { let s = 7; return () => (s = (s * 16807) % 2147483647) / 2147483647; })();
     const curve = (K, r, lag) => t.map(x => 0.09 + K / (1 + Math.exp(-r * (x - lag - 4 / r))) * (1 + (rnd() - 0.5) * 0.03) + (rnd() - 0.5) * 0.004);
     const strains = [['WT', 1.1, 0.9, 2], ['ΔmrcA', 1.0, 0.72, 3], ['ΔmrcB', 0.8, 0.55, 4.5], ['ΔmltG', 1.15, 0.85, 2.2]], groups = [];
@@ -1685,7 +1695,7 @@ const App = (() => {
     const bl = []; for (let c = 0; c < 12; c++) { const w = Plate.name(7, c); wells[w] = t.map(() => 0.09 + (rnd() - 0.5) * 0.004); fl[w] = t.map(() => 300 + (rnd() - 0.5) * 20); bl.push(w); }
     const names = Object.keys(wells).sort(Plate.order), tw = ws && !ws.plates.length ? ws : addWs(true);
     Object.assign(tw, { name: 'Demo plate (simulated)', file: 'demo', vendor: 'Simulated data', meta: { device: 'none — simulated', temp: 37 }, plates: [{ name: 'Plate 1', format: { rows: 8, cols: 12 }, wells: names, offsetH: 0, reads: [{ label: 'OD600', kind: 'abs', times: t, temps: t.map(() => 37), wells, meta: {}, layout: 'columns' }, { label: 'GFP', kind: 'fluo', times: t, temps: t.map(() => 37), wells: fl, meta: { ex: 485, em: 528 }, layout: 'columns' }] }], groups: [], excluded: {}, cache: {}, hist: [], hpos: -1 });
-    ws = tw; pickSt(); for (const g of groups) ws.groups.push(mk(0, g[0], g[1], 'sample', g[2] ? { series: g[2], conc: g[3] } : {})); ws.groups.push(mk(0, 'Blank', bl, 'blank'));
+    ws = tw; pickSt(); for (const g of groups) ws.groups.push(mk(0, g[0], g[1])); ws.groups.push(mk(0, 'Blank', bl, 'blank'));
     ws.view = 'curves'; record(); syncRail(); render();
   }
 
@@ -1704,7 +1714,7 @@ const App = (() => {
       $('selPrimary').innerHTML = p.reads.map((r, i) => `<option value="${i}"${i === R.primary ? ' selected' : ''}>${E(r.label)} · ${kindName(r)} · ${r.times.length} reading${r.times.length > 1 ? 's' : ''}</option>`).join('');
       $('selFl').innerHTML = '<option value="-1">Automatic</option>' + p.reads.map((r, i) => i === R.primary ? '' : `<option value="${i}"${i === ws.S.flRead ? ' selected' : ''}>${E(r.label)} · ${kindName(r)}</option>`).join('');
       $('flW').classList.toggle('hidden', p.reads.length < 2);
-      $('readNote').innerHTML = p.reads[R.primary].kind !== 'abs' && p.reads.some(r => r.kind === 'abs') ? `<div class="msg">Growth parameters are now worked out from ${E(p.reads[R.primary].label)}. To get growth from OD and the fluorescence parameters, choose the absorbance read here — the fluorescence curves are always on the Curves tab under <b>Show</b>.</div>` : '';
+      $('readNote').innerHTML = p.reads[R.primary].kind !== 'abs' && p.reads.some(r => r.kind === 'abs') ? `<div class="msg">Growth parameters are now worked out from ${E(p.reads[R.primary].label)}. To get growth from OD and the fluorescence parameters, choose the absorbance read here — the fluorescence curves are always on the Curves tab under <b>Show</b>.</div>` : p.reads[R.primary].kind !== 'abs' && !R.endpoint ? `<div class="msg ok">This file has no absorbance (OD) read, so the growth parameters describe the ${E(p.reads[R.primary].label)} curves: µmax is the steepest rise of ln(signal), and the maximum, AUC and values at set times are in signal units. Time to reach an OD is not available.</div>` : '';
       const hasF = R.fl >= 0, fi = R.flInfo; $('secFl').classList.toggle('hidden', !hasF);
       if (hasF) { $('flTag').textContent = R.flLabel; const nod = ws.groups.filter(g => g.plate === ws.pi && g.role === 'nodye'), dye = ws.groups.filter(g => g.plate === ws.pi && g.role === 'dyeblank'), med = ws.groups.filter(g => g.plate === ws.pi && g.role === 'blank'), wl = gs => Plate.compact([].concat(...gs.map(g => g.wells)).sort(Plate.order));
         $('flNote').innerHTML = !fi ? '' : `<div class="msg ok">Background: ${fi.bg === 'dye blank' ? `dye blank wells (${E(wl(dye))})` : fi.bg === 'medium blank' ? `medium blank wells (${E(wl(med))}) — mark medium + dye wells as <b>Dye blank</b> for a better background` : 'none — mark blank or dye blank wells on the Plate tab'}.${ws.S.autofl ? (fi.k ? ` Autofluorescence ${U.fmt(fi.k, 1)} ${R.flUnit || 'RFU'} per OD unit, from ${E(wl(nod))}, is subtracted.` : nod.length ? '' : ' No “Cells, no dye” wells, so no autofluorescence is subtracted.') : ''} Lowest usable F ${U.fmt(fi.fMin, 0)}${ws.S.fMin > 0 ? '' : ' (automatic)'}.</div>`; }
@@ -1767,8 +1777,8 @@ const App = (() => {
         const col = g ? g._c : '#b9b8b2', wc = g ? wellCol(col) : null;
         h += `<div class="well${ws.sel.has(w) ? ' sel' : ''}${ws.excluded[ws.pi + '|' + w] ? ' ex' : ''}" data-w="${w}" style="${wc && wc.bg ? `border-color:${wc.bd};background:${wc.bg}` : ''}">${n > 1 ? `<svg viewBox="0 0 100 60" preserveAspectRatio="none"><path d="${d}" fill="none" stroke="${wc ? wc.ln : 'var(--muted)'}" stroke-width="${ws.vo.pstyle === 'outline' ? 2.2 : 1.7}" vector-effect="non-scaling-stroke"/></svg>` : `<svg viewBox="0 0 100 60"><text x="50" y="40" text-anchor="middle" font-size="22" fill="currentColor">${U.fmt(y[0], 2)}</text></svg>`}${cs > 30 && g && CTLB[g.role] ? `<b title="${E(ROLE_NAME[g.role])}">${CTLB[g.role]}</b>` : ''}</div>`; } }
     h += '</div>';
-    const blanks = mine.filter(g => g.role === 'blank');
-    let rows = ''; for (const g of mine) rows += `<tr data-g="${g.id}"><td><input type="color" class="dot" data-k="color" value="${g._c}" title="Colour"></td><td><input data-k="name" value="${E(g.name)}" style="min-width:120px"></td><td><select data-k="role">${ROLES.filter(([k]) => hasFl() || (k !== 'dyeblank' && k !== 'nodye') || g.role === k).map(([k, l]) => `<option value="${k}"${g.role === k ? ' selected' : ''}>${l}</option>`).join('')}</select></td>${blanks.length > 1 ? `<td>${isCtl(g.role) ? '' : `<select data-k="blankId"><option value="">auto</option>${blanks.map(b => `<option value="${b.id}"${g.blankId === b.id ? ' selected' : ''}>${E(b.name)}</option>`).join('')}</select>`}</td>` : ''}<td>${E(Plate.compact(g.wells))}</td><td><input type="checkbox" data-k="show"${g.hidden ? '' : ' checked'} title="Show in charts"></td><td><button class="btn sm ghost" data-del title="Remove this group">✕</button></td></tr>`;
+    const blanks = (k => k.length ? k : mine.filter(g => g.role === 'dyeblank'))(mine.filter(g => g.role === 'blank')); // the blanks the OD is corrected with
+    let rows = ''; for (const g of mine) rows += `<tr data-g="${g.id}"><td><input type="color" class="dot" data-k="color" value="${g._c}" title="Colour"></td><td><input data-k="name" value="${E(g.name)}" style="min-width:120px"></td><td><select data-k="role">${ROLES.filter(([k]) => hasFl() || (k !== 'dyeblank' && k !== 'nodye') || g.role === k).map(([k, l]) => `<option value="${k}"${g.role === k ? ' selected' : ''}>${l}</option>`).join('')}</select></td>${blanks.length > 1 ? `<td>${isCtl(g.role) ? '' : `<select data-k="blankId" title="Blank subtracted from this group. Auto: the blank whose name matches, else the nearest one"><option value="">auto · ${E((Analysis.blankFor(Object.assign({}, g, { blankId: '' }), blanks) || { name: 'all blanks' }).name)}</option>${blanks.map(b => `<option value="${b.id}"${g.blankId === b.id ? ' selected' : ''}>${E(b.name)}</option>`).join('')}</select>`}</td>` : ''}<td>${E(Plate.compact(g.wells))}</td><td><input type="checkbox" data-k="show"${g.hidden ? '' : ' checked'} title="Show in charts"></td><td><button class="btn sm ghost" data-del title="Remove this group">✕</button></td></tr>`;
     $('tools').innerHTML = tPlatePick() + `<label class="fld"><span>Replicates</span><select data-v="arep" data-int>${[1, 2, 3, 4, 6, 8, 12].map(k => `<option value="${k}"${ws.vo.arep === k ? ' selected' : ''}>${k === 1 ? 'Each well alone' : k + ' wells'}</option>`).join('')}</select></label><label class="fld"><span>Next to each other</span><select data-v="adir"><option value="row"${ws.vo.adir === 'row' ? ' selected' : ''}>along rows →</option><option value="col"${ws.vo.adir === 'col' ? ' selected' : ''}>down columns ↓</option></select></label><button class="btn" id="aApply">Apply to plate</button><button class="btn" id="aGuess" title="Let Curvy find the replicate pattern and the control wells (blanks, dye blanks, cells without dye) from the data">Detect</button><button class="btn" id="aPaste">Paste layout from Excel…</button>${ws.plates.length > 1 ? '<button class="btn" id="aCopy" title="Use this plate\'s groups, names and roles on every other plate">Copy layout to all plates</button>' : ''}${tSel('Well colours', 'pstyle', [['soft', 'Soft tint'], ['outline', 'Bright outline'], ['solid', 'Solid fill'], ['mono', 'No colour']])}<label class="fld"><span>Group colours</span><select id="aPal" title="Colours of the groups here and in every figure that uses 'Same as plate layout'">${Object.entries(Charts.PAL_NAMES).map(([k, v]) => `<option value="${k}"${ws.pal === k ? ' selected' : ''}>${v}</option>`).join('')}</select></label><span class="sp"></span><button class="btn" id="aClear">Clear layout</button>`;
     $('view').innerHTML = `<div class="platewrap"><div class="card"><h3>${E(p.name)} · ${E(rd.label)} <span class="note" style="font-weight:400">— drag over wells to select, click a row letter or column number to select it all, Ctrl-click to add</span></h3>${h}
       <div class="acts" style="margin-top:12px"><input class="in" id="gname" placeholder="Name for the selected wells" style="width:210px"><button class="btn pri" id="sGroup">Group</button><button class="btn" id="sBlank" title="Medium only, no cells">Blank</button>${hasFl() ? '<button class="btn" id="sDye" title="Medium + dye, no cells: the fluorescence background">Dye blank</button><button class="btn" id="sNoDye" title="Cells without dye: their autofluorescence is subtracted from the stained cultures">No dye</button>' : ''}<button class="btn" id="sSplit" title="Split the selection into replicate groups using the Replicates setting above">Split into replicates</button><button class="btn" id="sEx">Exclude / include</button><button class="btn" id="sUn">Ungroup</button><span class="note" id="selInfo"></span></div></div>
@@ -1800,7 +1810,7 @@ const App = (() => {
     $('aClear').onclick = () => { ws.groups = ws.groups.filter(g => g.plate !== ws.pi); layoutChanged(); };
     $('aPaste').onclick = pasteDialog;
     $('aPal').onchange = e => { ws.pal = e.target.value; store('pal', ws.pal); for (const g of ws.groups) if (g.plate === ws.pi) g.color = ''; record(); syncRail(); render(); };
-    if ($('aCopy')) $('aCopy').onclick = () => { const src = ws.groups.filter(g => g.plate === ws.pi); ws.groups = src.slice(); ws.plates.forEach((q, i) => { if (i === ws.pi) return; const idMap = {}; const cp = src.map(g => { const n = mk(i, g.name, g.wells.filter(w => q.wells.includes(w)), g.role, { series: g.series, conc: g.conc, color: g.color, hidden: g.hidden }); idMap[g.id] = n.id; n._b = g.blankId; return n; }); for (const n of cp) { n.blankId = idMap[n._b] || ''; delete n._b; } ws.groups.push(...cp); }); ws.groups.sort((a, b) => a.plate - b.plate); toast('Layout copied to ' + (ws.plates.length - 1) + ' other plates'); layoutChanged(); };
+    if ($('aCopy')) $('aCopy').onclick = () => { const src = ws.groups.filter(g => g.plate === ws.pi); ws.groups = src.slice(); ws.plates.forEach((q, i) => { if (i === ws.pi) return; const idMap = {}; const cp = src.map(g => { const n = mk(i, g.name, g.wells.filter(w => q.wells.includes(w)), g.role, { color: g.color, hidden: g.hidden }); idMap[g.id] = n.id; n._b = g.blankId; return n; }); for (const n of cp) { n.blankId = idMap[n._b] || ''; delete n._b; } ws.groups.push(...cp); }); ws.groups.sort((a, b) => a.plate - b.plate); toast('Layout copied to ' + (ws.plates.length - 1) + ' other plates'); layoutChanged(); };
     const gt = $('gtab'); if (gt) { gt.onchange = e => { const tr = e.target.closest('tr[data-g]'), g = tr && ws.groups.find(x => x.id === tr.dataset.g), k = e.target.dataset.k; if (!g || !k) return; if (k === 'show') g.hidden = !e.target.checked; else g[k] = e.target.value; layoutChanged(); };
       gt.onclick = e => { if (!e.target.hasAttribute('data-del')) return; const id = e.target.closest('tr').dataset.g; ws.groups = ws.groups.filter(g => g.id !== id); layoutChanged(); };
       gt.onmouseover = e => { const tr = e.target.closest('tr[data-g]'), g = tr && ws.groups.find(x => x.id === tr.dataset.g); for (const el of document.querySelectorAll('#plate .well')) el.style.opacity = g && !g.wells.includes(el.dataset.w) ? 0.35 : ''; }; gt.onmouseleave = () => { for (const el of document.querySelectorAll('#plate .well')) el.style.opacity = ''; }; }
@@ -1882,7 +1892,7 @@ const App = (() => {
       const S = []; for (const d of drawGroups()) { const a = curveOf(d, 'y'), b = curveOf(d, 'f'); if (!a.mean.some(Number.isFinite)) continue; S.push({ key: d.key, name: d.name, color: d.color, marker: d.marker, dash: d.dash, x: a.mean, y: b.mean }); }
       if (!S.length) return $('view').innerHTML = empty(NOGROUPS);
       const lin = +ws.S.odLinMax; f = Charts.timecourse({ St: ws.St, series: S, xlab: od, ylab: yName('f'), zero: true, shade: lin > 0 ? [[lin, Infinity]] : null, id: 'cv' }); f.hover = null;
-    } else { const S = seriesFor(cy, o); if (!S.length) return $('view').innerHTML = empty(NOGROUPS); f = Charts.timecourse({ St: ws.St, series: S, xlab: 'Time (h)', ylab: yName(cy), ylog: ws.vo.ylog && logOK, zero: cy !== 'ln', id: 'cv' }); }
+    } else { const S = seriesFor(cy, o); if (!S.length) return $('view').innerHTML = empty(nG ? `Nothing to plot for “${E(yName(cy))}”: the wells shown have no usable values${cy === 'ln' ? ' — ln needs blank-corrected values above zero, and nothing here rose above the background' : cy === 'rate' ? ' — the growth rate needs a rise over at least four readings' : ''}. Try another curve type in <b>Show</b>.` : NOGROUPS); f = Charts.timecourse({ St: ws.St, series: S, xlab: 'Time (h)', ylab: yName(cy), ylog: ws.vo.ylog && logOK, zero: cy !== 'ln', id: 'cv' }); }
     const notes = { ratio: `F/OD is shown only where the blank-corrected OD is at least ${ws.S.fodMinOD} (below that the ratio is mostly noise).`, fvod: `Each line follows one group through time; a steeper line means more fluorescence per unit of biomass.${+ws.S.odLinMax > 0 ? ` The grey area is above the highest reliable OD (${ws.S.odLinMax}).` : ''}` };
     $('view').innerHTML = paper(f, { stack: 'od_fluorescence_stacked', stack3: 'od_fluorescence_FperOD_stacked', fvod: 'F_vs_OD', ratio: 'F_per_OD', f: 'fluorescence', fraw: 'fluorescence_raw' }[cy] || 'curves') + (notes[cy] ? `<p class="note">${notes[cy]}</p>` : '') + (nG > 60 ? `<div class="msg">${nG} groups are shown, so the shaded error bands and individual wells are left out to keep the lines visible. Group replicate wells or hide groups to get them back.</div>` : '');
   }
@@ -1994,7 +2004,7 @@ const App = (() => {
       cmp = runCompare(D, pl);
       if (cmp) { const sigOnly = !isRef && cmp.pairs.length > 10; if (sigOnly) note += ' Only significant pairs are drawn because there are many comparisons; the Statistics tab lists all of them.'; br = cmp.pairs.filter(p => Number.isFinite(p.padj) && (!sigOnly || p.padj < 0.05)).map(p => ({ i: p.i, j: p.j, label: ws.vo.clab === 'p' ? U.peq(p.padj) : U.stars(p.padj) })); }
     }
-    const bw0 = Charts.figW(ws.St), w = Math.min(Math.max(bw0, 3000), 150 + D.length * 62);
+    const bw0 = Charts.figW(ws.St), w = Math.min(Math.max(bw0, 3000), 150 + D.length * 30); // wider than the page only when each group would get less than 30 px (labels turn sideways before that)
     const f = Charts.bars({ St: ws.St, w: D.length > 8 && w > bw0 ? w : undefined, cats: D, mode: ws.vo.cmode, brackets: br, refMode: ws.vo.cpairs === 'ref', ylab: yComp(k), ylog: ws.vo.clog && norm !== 'log2', showPoints: ws.vo.cpoints, hline: normCenter(norm), id: 'cp' });
     const minN = Math.min(...D.map(d => d.vals.length));
     $('view').innerHTML = paper(f, 'compare_' + k.replace(/[^\w.]/g, '_')) + (cmp || note ? `<div class="card"><h3>Test used</h3><p class="note">${cmp ? `${E(TESTS.find(t => t[0] === ws.vo.ctest)[1])}${cmp.adjust === 'tukey' ? '' : ', p-values corrected by ' + ({ holm: 'Holm', bh: 'Benjamini–Hochberg', bonferroni: 'Bonferroni', none: 'no correction' }[cmp.adjust])}.${cmp.omni && Number.isFinite(cmp.omni.p) ? ` ${E(cmp.omni.name)}: ${U.peq(cmp.omni.p)}.` : ''} * p &lt; 0.05, ** &lt; 0.01, *** &lt; 0.001, **** &lt; 0.0001.` : ''}${note}${minN < 3 ? ' <b>Some groups have fewer than 3 values — treat these p-values with caution.</b>' : ''} Wells on one plate are technical replicates; for a publication, test across independent experiments.</p></div>` : '') + (norm !== 'none' ? refNote() : '');
@@ -2034,7 +2044,7 @@ const App = (() => {
     return rows; }
   function curveRows(which = 'y') { const rows = [['Plate', 'Group', 'Time (h)', 'Mean', 'SD', 'n']], ps = new Set(ws.view === 'table' ? scopePlates() : allPlates()); for (const g of ws.groups) { if (!ps.has(g.plate)) continue; const R = res(g.plate); if (R.endpoint) continue; const c = Analysis.curve(R, gWells(g), which, ws.S); c.t.forEach((t, i) => rows.push([ws.plates[g.plate].name, g.name, +t.toFixed(4), c.mean[i], c.sd[i], c.n[i]])); } return rows; }
   function rawRows(corr) { const R = res(ws.pi), p = plate(), wl = p.wells.filter(w => R.wells[w]); return [['Time (h)'].concat(wl)].concat(R.t.map((t, i) => [+t.toFixed(4)].concat(wl.map(w => corr ? R.wells[w].y[i] : R.wells[w].raw[i])))); }
-  const tableHtml = (rows, max = 400) => `<div class="tw"><table class="t"><thead><tr>${rows[0].map(h => `<th>${E(h)}</th>`).join('')}</tr></thead><tbody>${rows.slice(1, max + 1).map(r => `<tr>${r.map(v => typeof v === 'number' ? `<td class="n">${U.fmt(v)}</td>` : `<td>${E(v == null ? '' : v)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>${rows.length - 1 > max ? `<p class="note">Showing the first ${max} of ${rows.length - 1} rows. Copy or download to get all of them.</p>` : ''}`;
+  const tableHtml = (rows, max = 400, cls = '') => `<div class="tw${cls}"><table class="t"><thead><tr>${rows[0].map(h => `<th>${E(h)}</th>`).join('')}</tr></thead><tbody>${rows.slice(1, max + 1).map(r => `<tr>${r.map(v => typeof v === 'number' ? `<td class="n">${Number.isInteger(v) ? v : U.fmt(v)}</td>` : `<td>${E(v == null ? '' : v)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>${rows.length - 1 > max ? `<p class="note">Showing the first ${max} of ${rows.length - 1} rows. Copy or download to get all of them.</p>` : ''}`;
   let tableRows = null;
   function viewTable() {
     const T = [['groups', 'Group summary'], ['wells', 'Every well'], ['curves', 'Group curves (mean, SD)']].concat(ws.plates.length > 1 ? [['pooled', 'Pooled groups across plates']] : [], [['corr', 'Processed readings of one plate'], ['raw', 'Raw readings of one plate']]);
@@ -2042,7 +2052,7 @@ const App = (() => {
     const m = ws.vo.tmode;
     fig = null; tableRows = m === 'wells' ? wellRows() : m === 'curves' ? curveRows() : m === 'pooled' ? pooledRows() : m === 'corr' ? rawRows(true) : m === 'raw' ? rawRows(false) : groupRows();
     $('tools').innerHTML = tSel('Table', 'tmode', T) + (m === 'corr' || m === 'raw' ? tPlatePick() : tScope(false)) + '<span class="sp"></span><button class="btn" id="tCopy">Copy table</button>' + tblBtns({ groups: 'group_summary', wells: 'wells', curves: 'group_curves', pooled: 'pooled_groups', corr: 'processed_readings', raw: 'raw_readings' }[m] || 'table', tableRows);
-    $('view').innerHTML = (m === 'pooled' && !multi() ? '<div class="msg">Only one plate is shown, so nothing is pooled. Choose <b>All plates</b> or <b>Selected plates…</b> above to count same-named groups on several plates together.</div>' : '') + tableHtml(tableRows);
+    $('view').innerHTML = (m === 'pooled' && !multi() ? '<div class="msg">Only one plate is shown, so nothing is pooled. Choose <b>All plates</b> or <b>Selected plates…</b> above to count same-named groups on several plates together.</div>' : '') + tableHtml(tableRows, 400, ' full');
     $('tCopy').onclick = () => navigator.clipboard.writeText(tableRows.map(r => r.map(v => v == null || (typeof v === 'number' && !Number.isFinite(v)) ? '' : v).join('\t')).join('\n')).then(() => toast('Table copied — paste it into Excel'), () => toast('Copying was blocked by the browser; use Download instead.'));
   }
   /* ═══════════════ VIEW: FIGURE BOARD ═══════════════ */
@@ -2058,10 +2068,11 @@ const App = (() => {
   function methodsText() {
     const S = ws.S, R = res(ws.pi), p = plate(), rd = p.reads[R.primary], M = ws.meta, n = rd.times.length, dt = n > 1 ? (rd.times[n - 1] - rd.times[0]) / (n - 1) : 0, out = [];
     out.push(`Plate reader measurements. ${rd.kind === 'abs' ? 'Absorbance' : rd.kind === 'lum' ? 'Luminescence' : 'Fluorescence'} (${rd.label}${rd.meta.wl ? ', ' + rd.meta.wl + ' nm' : ''}) was recorded${M.device ? ' in a ' + M.device + ' plate reader' : ''}${M.plateType ? ' using ' + M.plateType + ' plates' : ''}${n > 1 ? ` every ${dt < 1 ? Math.round(dt * 60) + ' min' : U.fmt(dt, 2) + ' h'} for ${U.fmt(rd.times[n - 1], 1)} h` : ' as a single endpoint reading'}${M.temp != null ? ' at ' + M.temp + ' °C' : ''}${M.shake ? ` with ${M.shake.mode} shaking${M.shake.frequency ? ' (' + M.shake.frequency + ' rpm' + (M.shake.amplitude ? ', ' + M.shake.amplitude + ' mm amplitude' : '') + ')' : ''}` : ''}.${ws.plates.length > 1 ? ` ${ws.plates.length} plates were read in rotation; time is counted from each plate's first reading.` : ''}${R.fl >= 0 ? ` ${R.flLabel} fluorescence${p.reads[R.fl].meta.ex ? ` (excitation ${p.reads[R.fl].meta.ex} nm, emission ${p.reads[R.fl].meta.em} nm)` : ''} was read at the same time points.` : ''}`);
-    const bm = { groups: `the mean of the medium-only (blank) wells was subtracted from every well${S.blankAs === 'const' ? ' as one constant (median over time)' : ' at each time point'}`, min: "each well's own minimum reading was subtracted as background", first: "each well's first reading was subtracted", value: `a fixed blank of ${S.blankValue} was subtracted`, none: 'values were used without blank subtraction' }[R.blankMode];
+    const nbl = (k => k.length ? k : ws.groups.filter(g => g.plate === ws.pi && g.role === 'dyeblank'))(ws.groups.filter(g => g.plate === ws.pi && g.role === 'blank')).length;
+    const bm = { groups: (nbl > 1 ? 'each well was corrected with the mean of its own blank group (the blank chosen in the plate layout, otherwise the blank whose name matches the sample, otherwise the nearest blank on the plate), subtracted' : 'the mean of the medium-only (blank) wells was subtracted from every well') + (S.blankAs === 'const' ? ' as one constant (median over time)' : ' at each time point'), min: "each well's own minimum reading was subtracted as background", first: "each well's first reading was subtracted", value: `a fixed blank of ${S.blankValue} was subtracted`, none: 'values were used without blank subtraction' }[R.blankMode];
     const od = R.kind === 'abs' ? 'OD' : R.label, sm = +S.smooth > 1 ? ' and smoothed' : '', dT = numList(S.odTimes).filter(v => v >= 0), dL = numList(S.odLevels);
     const dyn = R.endpoint ? '' : (dT.length ? ` The ${od} at ${listJoin(dT.map(String))} h was read from each blank-corrected${sm} curve by linear interpolation between the two neighbouring readings.` : '') + (dL.length ? ` The time to reach ${od} ${listJoin(dL.map(String))} was taken as the first time each blank-corrected${sm} curve rose to that value, interpolated linearly between readings; wells that never reached it are reported as not reached and left out of the statistics.` : '');
-    out.push(`Data analysis. Data were analysed with Curvy v1.2. For blank correction ${bm}${+S.smooth > 1 ? `, and curves were smoothed with a ${S.smooth}-point moving average` : ''}.${S.tmin != null || S.tmax != null ? ` Only readings between ${S.tmin ?? 0} and ${S.tmax ?? U.fmt(rd.times[n - 1], 1)} h were analysed.` : ''}` + (R.endpoint ? '' : ` The maximum specific growth rate (µmax) was ${S.source === 'mf' ? `taken as the steepest slope of ln(OD) against time within a sliding window of about ${S.winH} h (at least four readings; readings below OD ${S.odMin} were ignored; windows with R² ≥ ${S.r2min} were preferred)` : `obtained by fitting ${S.source === 'best' ? 'logistic, Gompertz and Richards models in the form of Zwietering et al. (1990) to ln(OD/OD₀) and keeping the model with the lowest AICc for each well' : 'the ' + Models[S.source].name + ' model in the form of Zwietering et al. (1990) to ln(OD/OD₀)'} by Levenberg–Marquardt least squares`}. Doubling time was calculated as ln 2 / µmax. Lag time is the time at which the tangent at µmax crosses the starting OD (values below ${S.floor} were set to ${S.floor}). Wells whose OD rose by less than ${S.minGrowth} were scored as no growth. The area under the curve was calculated by the trapezoid rule.`) + dyn);
+    out.push(`Data analysis. Data were analysed with Curvy v1.3. For blank correction ${bm}${+S.smooth > 1 ? `, and curves were smoothed with a ${S.smooth}-point moving average` : ''}.${S.tmin != null || S.tmax != null ? ` Only readings between ${S.tmin ?? 0} and ${S.tmax ?? U.fmt(rd.times[n - 1], 1)} h were analysed.` : ''}` + (R.endpoint ? '' : ` The maximum specific growth rate (µmax) was ${S.source === 'mf' || !S.fit || !(S.source === 'best' ? Object.keys(Models).some(k => S.models[k]) : S.models[S.source]) ? `taken as the steepest slope of ln(OD) against time within a sliding window of about ${S.winH} h (at least four readings; readings below OD ${S.odMin} were ignored; windows with R² ≥ ${S.r2min} were preferred)` : `obtained by fitting ${S.source === 'best' ? `${listJoin(Object.keys(Models).filter(k => S.models[k]).map(k => Models[k].name.toLowerCase().replace('gompertz', 'Gompertz').replace('richards', 'Richards')))} models in the form of Zwietering et al. (1990) to ln(OD/OD₀) and keeping the model with the lowest AICc for each well` : 'the ' + Models[S.source].name + ' model in the form of Zwietering et al. (1990) to ln(OD/OD₀)'} by Levenberg–Marquardt least squares`}. Doubling time was calculated as ln 2 / µmax. Lag time is the time at which the tangent at µmax crosses the starting OD (values below ${S.floor} were set to ${S.floor}). Wells whose OD rose by less than ${S.minGrowth} were scored as no growth. The area under the curve was calculated by the trapezoid rule.`) + dyn);
     if (R.fl >= 0) { const fi = R.flInfo || {}, u = R.flUnit || 'RFU', L = R.kind === 'abs' ? numList(S.fodLevels).filter(v => v > 0) : [];
       out.push(`Fluorescence. ${R.flLabel} fluorescence was corrected by subtracting ${fi.bg === 'dye blank' ? 'the mean of the dye-blank wells (medium plus dye, no cells)' : fi.bg === 'medium blank' ? 'the mean of the medium-blank wells' : 'no background'}${fi.k ? ` and the autofluorescence of the cells, ${U.fmt(fi.k, 1)} ${u} per OD unit multiplied by each well's OD (the slope through the origin of the fluorescence of cells without dye, minus the medium, against their OD)` : ''}${S.blankAs === 'const' ? ', using the median background over time' : ' at each time point'}.${R.endpoint ? '' : ` Fluorescence parameters were derived as for OD: F µmax and F lag time from the steepest stretch of ln F (readings below ${U.fmt(fi.fMin, 0)} ${u} were ignored${S.fStart != null && S.fStart !== '' ? `, and only readings from ${S.fStart} h on were used` : ''}); the onset delay is the time fluorescence reached 10% of its rise minus the time OD reached 10% of its rise; dF/dOD is the slope of F against OD while OD was between ${S.odMin} and the smaller of ${S.odLinMax} and 60% of the maximum OD.`} F/OD was calculated only where the blank-corrected OD was at least ${S.fodMinOD}.${L.length && !R.endpoint ? ` F and F/OD at OD ${listJoin(L.map(String))} were read at the time each well's OD first reached that value.` : ''}`); }
     const err = ws.Sts && ws.Sts.compare ? ws.Sts.compare.err : ws.St.err;
@@ -2082,7 +2093,7 @@ const App = (() => {
   function download(blob, name) { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); }
   /* the exported figure carries no on-screen helpers: no drag handles, tooltips, hover titles or edit markers */
   const cleanSvg = svg => svg.replace(/<rect data-split=[\s\S]*?<\/rect>/g, '').replace(/<path [^>]*data-hit="[^"]*"[^>]*\/>/g, '').replace(/<title>[\s\S]*?<\/title>/g, '').replace(/ data-(tip|leg|panel|key|edit|cell|val|anim|line)="[^"]*"/g, '').replace(/ style="cursor:pointer"/g, '');
-  function pngBlob(f, dpi) { return new Promise((ok, fail) => { const sc = dpi / (25.4 * MM), img = new Image(); img.onload = () => { const c = document.createElement('canvas'); c.width = Math.round(f.w * sc); c.height = Math.round(f.h * sc); const x = c.getContext('2d'); x.drawImage(img, 0, 0, c.width, c.height); c.toBlob(b => b ? ok(b) : fail(new Error('The picture is too large for this browser — choose a smaller figure size.')), 'image/png'); }; img.onerror = () => fail(new Error('The figure could not be drawn as a picture.')); img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(cleanSvg(f.svg)); }); }
+  function pngBlob(f, dpi) { return new Promise((ok, fail) => { const sc = dpi / (25.4 * MM), img = new Image(); img.onload = () => { const c = document.createElement('canvas'); c.width = Math.round(f.w * sc); c.height = Math.round(f.h * sc); const x = c.getContext('2d'); x.drawImage(img, 0, 0, c.width, c.height); c.toBlob(b => b ? IO.pngDpi(b, dpi).then(ok, () => ok(b)) : fail(new Error('The picture is too large for this browser — choose a smaller figure size.')), 'image/png'); }; img.onerror = () => fail(new Error('The figure could not be drawn as a picture.')); img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(cleanSvg(f.svg)); }); }
   function workbook() {
     const sheets = [{ name: 'Group summary', rows: groupRows() }]; if (ws.plates.length > 1) sheets.push({ name: 'Pooled groups', rows: pooledRows(allPlates()) }); sheets.push({ name: 'Wells', rows: wellRows() }); if (!res(ws.pi).endpoint) { sheets.push({ name: 'Curves', rows: curveRows() }); if (res(ws.pi).fl >= 0) sheets.push({ name: 'Fluorescence curves', rows: curveRows('f') }); }
     sheets.push({ name: 'Layout', rows: [['Plate', 'Group', 'Role', 'Wells']].concat(ws.groups.map(g => [ws.plates[g.plate].name, g.name, roleName(g.role), g.wells.join(' ')])) });
@@ -2146,7 +2157,7 @@ const App = (() => {
   const edFlush = () => { clearTimeout(edTm); const f = edPend; edPend = null; if (f) f(); };
   const edClsOf = ed => { const k = String(ed).split('|')[0]; return Charts.LCLS[k] || k; };
   const edKey = () => ED.scope === 'all' ? ED.cls : ED.ed;
-  const edLive = tg => !/^[nd]:/.test(tg || ''); // pooled names and dose series are renamed when the typing is finished
+  const edLive = tg => !/^n:/.test(tg || ''); // pooled names are renamed when the typing is finished
   const isHeatFig = () => ws.view === 'heat';
   const AXT = { title: 'title', xlab: 'xlab', ylab: 'ylab', ylab2: 'ylab2', ylab3: 'ylab3', cb: 'cblab' }; // labels whose words are a style setting
   const toHex = c => /^#[0-9a-f]{6}$/i.test(c || '') ? c : /^#[0-9a-f]{3}$/i.test(c || '') ? '#' + c.slice(1).split('').map(x => x + x).join('') : '#111111';
@@ -2160,7 +2171,6 @@ const App = (() => {
     if (tg.startsWith('g:')) { const g = ws.groups.find(x => x.id === tg.slice(2)); return g ? g.name : null; }
     if (tg.startsWith('n:')) return tg.slice(2);
     if (tg.startsWith('p:')) { const p = ws.plates[+tg.slice(2)]; return p ? p.name : null; }
-    if (tg.startsWith('d:')) return tg.slice(2).split('\u0001')[0];
     if (k === 'col') return ((St.lab || {})[ED.ed] || {}).text || ED.shown;
     return null;
   }
@@ -2169,7 +2179,6 @@ const App = (() => {
     if (tg.startsWith('g:')) { const g = ws.groups.find(x => x.id === tg.slice(2)); return g ? `Renames this group${ws.plates.length > 1 ? ' on ' + ws.plates[g.plate].name : ''} everywhere: plate map, tables and every figure.` : ''; }
     if (tg.startsWith('n:')) return 'Renames this sample on every plate shown (applied when you press Enter or click outside the box).';
     if (tg.startsWith('p:')) return 'Renames the plate.';
-    if (tg.startsWith('d:')) return 'Renames the dilution series and the names of its groups (applied when you press Enter).';
     if (k === 'col' && tg) return 'Changes this column label in this figure only. Clear the box to go back to the automatic text.';
     return 'Clear the box to go back to the automatic text.';
   }
@@ -2185,7 +2194,6 @@ const App = (() => {
     if (tg.startsWith('g:')) { const g = ws.groups.find(x => x.id === tg.slice(2)); if (!g || !w || w === g.name) return false; renameGroups([g], w); return true; }
     if (tg.startsWith('p:')) { const p = ws.plates[+tg.slice(2)]; if (!p || !w || w === p.name) return false; p.name = w; return true; }
     if (tg.startsWith('n:')) { if (!commit) return false; const old = tg.slice(2); if (!w || w === old) return false; const clash = scopeGroups().some(g => g.name === w); renameGroups(groupsOfKey(tg), w); edRekey(tg, 'n:' + w); if (clash) toast(`“${w}” already existed on these plates, so the two are now pooled as one group.`, 4200); return true; }
-    if (tg.startsWith('d:')) { if (!commit) return false; const [old, pi] = tg.slice(2).split('\u0001'); if (!w || w === old) return false; for (const g of groupsOfKey(tg)) { if (g.name.startsWith(old)) g.name = w + g.name.slice(old.length); g.series = w; } edRekey(tg, 'd:' + w + (pi != null ? '\u0001' + pi : '')); return true; }
     if (k === 'col') { const lab = St.lab || (St.lab = {}), o = lab[ED.ed] || (lab[ED.ed] = {}), before = o.text; if (w) o.text = w; else delete o.text; if (!Object.keys(o).length) delete lab[ED.ed]; return o.text !== before; }
     return false;
   }
@@ -2409,7 +2417,7 @@ const App = (() => {
     window.addEventListener('beforeunload', e => { if (WS.some(w => w.plates.length && w.file !== 'demo')) { e.preventDefault(); e.returnValue = ''; } });
     render();
   }
-  return { init, openFiles, demo, get ws() { return ws; }, get fig() { return fig; }, get ed() { return ED; }, get playing() { return !!play; }, _set(v, vo) { ws.view = v; Object.assign(ws.vo, vo || {}); syncRail(); render(); }, _layout: (n, d) => { autoLayout(ws.pi, n, d); layoutChanged(); }, _draw: () => draw() };
+  return { init, openFiles, demo, get ws() { return ws; }, get fig() { return fig; }, get ed() { return ED; }, get playing() { return !!play; }, _set(v, vo) { ws.view = v; Object.assign(ws.vo, vo || {}); syncRail(); render(); }, _layout: (n, d) => { autoLayout(ws.pi, n, d); layoutChanged(); }, _draw: () => draw(), _res: pi => res(pi) };
 })();
 if (typeof document !== 'undefined') { if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', App.init); else App.init(); }
 </script></body></html>
